@@ -5,6 +5,7 @@ import static com.google.common.primitives.Shorts.checkedCast;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Collections;
 import java.util.Map;
 
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -105,4 +106,13 @@ public class SpreadsheetWorkbook {
 	public void write(OutputStream out) throws IOException {
 		workbook.write(out);
 	}
+
+	public Map<SpreadsheetCellStyle, CellStyle> getCellStyles() {
+		return Collections.unmodifiableMap(styleMap);
+	}
+
+	public Map<SpreadsheetFont, Font> getFonts() {
+		return Collections.unmodifiableMap(fontMap);
+	}
+
 }
