@@ -111,6 +111,23 @@ public class SpreadsheetReader {
 	 */
 	public String getStringValue(String cellId) {
 		Cell cell = getCell(cellId);
+		return getStringValue(cell);
+	}
+
+	/**
+	 * Returns the trimmed content of the cell as a String, or an empty String
+	 * if the cell doesn't exist or is empty.
+	 */
+	public String getStringValue(int columnIndex, int rowIndex) {
+		Cell cell = getCell(columnIndex, rowIndex);
+		return getStringValue(cell);
+	}
+
+	/**
+	 * Returns the trimmed content of the cell as a String, or an empty String
+	 * if the cell doesn't exist or is empty.
+	 */
+	public String getStringValue(Cell cell) {
 		if (cell == null) {
 			return "";
 		} else {

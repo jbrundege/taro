@@ -41,6 +41,13 @@ public class SpreadsheetCellTest {
 	}
 
 	@Test
+	public void setValueWithStringFormula_SetsAFormulaOnTheCell() {
+		cell.setValue("=B1*C1");	// formula is any string starting with an equals (=) sign
+		assertThat(cell.getPoiCell().getCellType(), is(Cell.CELL_TYPE_FORMULA));
+		assertThat(cell.getPoiCell().getCellFormula(), is("B1*C1"));
+	}
+
+	@Test
 	public void setValueWithShort_SetsANumericValueOnTheCell() {
 		cell.setValue((short)12);
 		assertThat(cell.getPoiCell().getCellType(), is(Cell.CELL_TYPE_NUMERIC));
