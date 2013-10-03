@@ -27,7 +27,7 @@ public class SpreadsheetWorkbookIntegrationTest {
 		SpreadsheetTab tab = workbook.createTab("Test Tab");
 		tab.setValue("A1", "Some text", SpreadsheetCellStyle.HEADER.withBackgroundColor(Color.RED));
 		tab.setValue("A2", "Some subtext");
-		tab.setValue(0, 1, "A multi-line \n text cell");	// B1
+		tab.setValue(0, 1, "A multi-line \n text cell", SpreadsheetCellStyle.DEFAULT.withWrapText(true));	// B1
 		tab.setValue(1, 1, 27.5, SpreadsheetCellStyle.CENTER_ONE_DECIMAL.withBottomBorder(CellStyle.BORDER_MEDIUM));	// B2
 		Date date = new Date();
 		tab.setValue("C1", date);

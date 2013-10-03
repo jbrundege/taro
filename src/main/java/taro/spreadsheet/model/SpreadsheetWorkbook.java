@@ -34,6 +34,14 @@ public class SpreadsheetWorkbook {
 		return new SpreadsheetTab(this, title);
 	}
 
+	public SpreadsheetTab getTab(int index) {
+		return new SpreadsheetTab(this, workbook.getSheetAt(index));
+	}
+
+	public SpreadsheetTab getTab(String title) {
+		return new SpreadsheetTab(this, workbook.getSheet(title));
+	}
+
 	public Workbook getPoiWorkbook() {
 		return workbook;
 	}

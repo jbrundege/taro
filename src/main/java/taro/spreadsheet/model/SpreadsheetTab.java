@@ -1,6 +1,6 @@
 package taro.spreadsheet.model;
 
-import static com.google.common.collect.Maps.newHashMap;
+import static com.google.common.collect.Maps.*;
 import static taro.spreadsheet.model.SpreadsheetCellStyle.DEFAULT;
 
 import java.util.Map;
@@ -28,6 +28,11 @@ public class SpreadsheetTab {
 	public SpreadsheetTab(SpreadsheetWorkbook workbook, String title) {
 		this.workbook = workbook;
 		this.sheet = workbook.getPoiWorkbook().createSheet(title);
+	}
+
+	public SpreadsheetTab(SpreadsheetWorkbook workbook, Sheet sheet) {
+		this.workbook = workbook;
+		this.sheet = sheet;
 	}
 
 	public static String getCellAddress(int row, int col) {
@@ -291,6 +296,11 @@ public class SpreadsheetTab {
 
 	public CellStyle registerStyle(SpreadsheetCellStyle style) {
 		return workbook.registerStyle(style);
+	}
+
+	public void addPicture(String cellAddress, byte[] bytes, int pictureType) {
+		CellReference cellRef = new CellReference(cellAddress);
+		addPicture(cellRef.getRow(), cellRef.getCol(), bytes, pictureType);
 	}
 
 	public void addPicture(int row, int col, byte[] bytes, int pictureType) {
