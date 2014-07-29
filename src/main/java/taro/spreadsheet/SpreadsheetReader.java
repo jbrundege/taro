@@ -1,17 +1,16 @@
 package taro.spreadsheet;
 
 
-import static com.google.common.collect.Lists.newArrayList;
-import static org.apache.commons.lang.StringUtils.isNotBlank;
-
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.util.CellReference;
+
+import java.util.Date;
+import java.util.List;
+
+import static com.google.common.collect.Lists.*;
+import static org.apache.commons.lang.StringUtils.*;
 
 /**
  * Very simple utility to help read a POI sheet within an Excel (.xlsx) file.
@@ -272,18 +271,19 @@ public class SpreadsheetReader {
 
 	public String[][] readSheet() {
 		List<List<String>> contents = newArrayList();
+		int maxRowNum = sheet.getLastRowNum();
 		int maxColNum = 0;
-		Iterator<Row> rowIterator = sheet.rowIterator();
-		while (rowIterator.hasNext()) {
+		for (int rowNum = 0; rowNum <= maxRowNum; rowNum++) {
+			Row row = sheet.getRow(rowNum);
 			List<String> rowContents = newArrayList();
-			Row row = rowIterator.next();
-			Iterator<Cell> cellIterator = row.cellIterator();
-			while (cellIterator.hasNext()) {
-				rowContents.add(getValue(cellIterator.next()));
-			}
 			contents.add(rowContents);
-			if (rowContents.size() > maxColNum) {
-				maxColNum = rowContents.size();
+			if (row == null) continue;
+			int lastCellNum = row.getLastCellNum();
+			for (int cellNum = 0; cellNum <= lastCellNum; cellNum++) {
+				rowContents.add(getValue(row.getCell(cellNum)));
+			}
+			if (lastCellNum > maxColNum) {
+				maxColNum = lastCellNum;
 			}
 		}
 		String[][] contentsArray = new String[contents.size()][maxColNum];
