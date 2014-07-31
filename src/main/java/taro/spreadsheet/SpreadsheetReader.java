@@ -60,6 +60,20 @@ public class SpreadsheetReader {
 		this.sheet = sheet;
 	}
 
+
+	public Sheet getPoiSheet() {
+		return sheet;
+	}
+
+	public int getNumRows() {
+		return sheet.getLastRowNum()+1;
+	}
+
+	public int getNumCols(int rowNum) {
+		return sheet.getRow(rowNum).getLastCellNum()+1;
+	}
+
+
 	/**
 	 * Attempts to convert all values to a string. Returns the trimmed content of the cell, or an empty String
 	 * if the cell doesn't exist or is empty.
@@ -143,11 +157,7 @@ public class SpreadsheetReader {
 	 */
 	public Double getNumericValue(String cellId) {
 		Cell cell = getCell(cellId);
-		if (cell == null) {
-			return 0d;
-		} else {
-			return cell.getNumericCellValue();
-		}
+		return getNumericValue(cell);
 	}
 
 	/**
@@ -155,6 +165,10 @@ public class SpreadsheetReader {
 	 */
 	public Double getNumericValue(int columnIndex, int rowIndex) {
 		Cell cell = getCell(columnIndex, rowIndex);
+		return getNumericValue(cell);
+	}
+
+	public Double getNumericValue(Cell cell) {
 		if (cell == null) {
 			return 0d;
 		} else {
@@ -165,8 +179,17 @@ public class SpreadsheetReader {
 	/**
 	 * Returns the Date content of the cell, or null if the cell doesn't exist or is empty.
 	 */
+	public Date getDateValue(int columnIndex, int rowIndex) {
+		Cell cell = getCell(columnIndex, rowIndex);
+		return getDateValue(cell);
+	}
+
 	public Date getDateValue(String cellId) {
 		Cell cell = getCell(cellId);
+		return getDateValue(cell);
+	}
+
+	public Date getDateValue(Cell cell) {
 		if (cell == null) {
 			return null;
 		} else {
