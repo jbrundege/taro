@@ -152,6 +152,18 @@ public class SpreadsheetTab {
 		}
 	}
 
+	public void autosizeRows() {
+		for (int row = 0; row <= highestModifiedRow; row++) {
+			autoSizeRow(row);
+		}
+	}
+	
+	public void autosizeCols() {
+		for (int col = 0; col <= highestModifiedCol; col++) {
+			sheet.autoSizeColumn(col, true);
+		}
+	}
+
 	public void autoSizeRow(int row) {
 		float tallestCell = -1;
 		for (int col = 0; col <= highestModifiedCol; col++) {
