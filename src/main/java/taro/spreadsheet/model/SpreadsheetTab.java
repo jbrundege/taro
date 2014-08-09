@@ -144,12 +144,8 @@ public class SpreadsheetTab {
 	}
 
 	public void autosizeRowsAndCols() {
-		for (int col = 0; col <= highestModifiedCol; col++) {
-			sheet.autoSizeColumn(col, true);
-		}
-		for (int row = 0; row <= highestModifiedRow; row++) {
-			autoSizeRow(row);
-		}
+		autosizeCols();
+	    autosizeRows();
 	}
 
 	public void autosizeRows() {
