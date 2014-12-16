@@ -8,7 +8,7 @@ import static org.apache.poi.ss.usermodel.CellStyle.VERTICAL_CENTER;
 
 import java.awt.Color;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 public class SpreadsheetCellStyle {
 
