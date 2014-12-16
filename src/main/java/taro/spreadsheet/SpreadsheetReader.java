@@ -2,6 +2,7 @@ package taro.spreadsheet;
 
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.util.CellReference;
@@ -9,8 +10,9 @@ import org.apache.poi.ss.util.CellReference;
 import java.util.Date;
 import java.util.List;
 
-import static com.google.common.collect.Lists.*;
-import static org.apache.commons.lang.StringUtils.*;
+import static com.google.common.collect.Lists.newArrayList;
+import static org.apache.commons.lang.StringUtils.isNotBlank;
+import static org.apache.commons.lang.StringUtils.trim;
 
 /**
  * Very simple utility to help read a POI sheet within an Excel (.xlsx) file.
@@ -55,6 +57,7 @@ public class SpreadsheetReader {
 
 
 	private Sheet sheet;
+	private DataFormatter df = new DataFormatter();
 	
 	public SpreadsheetReader(Sheet sheet) {
 		this.sheet = sheet;
@@ -97,25 +100,7 @@ public class SpreadsheetReader {
 	 * if the cell doesn't exist or is empty.
 	 */
 	public String getValue(Cell cell) {
-		if (cell == null) return "";
-		
-		String value;
-		try {
-			value = cell.getStringCellValue();
-			if (value == null) {
-				value = "";
-			} else {
-				value = value.trim();
-			}
-		} catch(Exception ex) {
-			try {
-				value = Double.toString(cell.getNumericCellValue());
-			} catch (Exception ex2) {
-				throw new RuntimeException("Cannot get value for cell at colIndex: " + cell.getColumnIndex() 
-						+ ", rowIndex: " + cell.getRowIndex(), ex);
-			}
-		}
-		return value;
+		return trim(df.formatCellValue(cell));
 	}
 
 	/**

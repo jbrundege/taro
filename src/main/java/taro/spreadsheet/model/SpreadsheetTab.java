@@ -25,12 +25,12 @@ public class SpreadsheetTab {
 	private int highestModifiedCol = -1;
 	private int highestModifiedRow = -1;
 
-	public SpreadsheetTab(SpreadsheetWorkbook workbook, String title) {
+	SpreadsheetTab(SpreadsheetWorkbook workbook, String title) {
 		this.workbook = workbook;
 		this.sheet = workbook.getPoiWorkbook().createSheet(title);
 	}
 
-	public SpreadsheetTab(SpreadsheetWorkbook workbook, Sheet sheet) {
+	SpreadsheetTab(SpreadsheetWorkbook workbook, Sheet sheet) {
 		this.workbook = workbook;
 		this.sheet = sheet;
 	}

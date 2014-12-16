@@ -10,6 +10,7 @@ import java.util.Map;
 
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Font;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -169,6 +170,24 @@ public class SpreadsheetWorkbookTest {
 			fonts.remove(font);
 			fail("Expected an UnsupportedOperationException but not thrown.");
 		} catch(UnsupportedOperationException ex) { /* expected */ }
+	}
+
+	@Test
+	public void createTab_CachesByIndexAndTitle() {
+		String title0 = "tab at index 0";
+		String title1 = "tab at index 1";
+		String title2 = "tab at index 2";
+
+		SpreadsheetTab tab0 = workbook.createTab(title0);
+		SpreadsheetTab tab1 = workbook.createTab(title1);
+		SpreadsheetTab tab2 = workbook.createTab(title2);
+
+		Assert.assertThat(workbook.getTab(0), sameInstance(tab0));
+		Assert.assertThat(workbook.getTab(title0), sameInstance(tab0));
+		Assert.assertThat(workbook.getTab(1), sameInstance(tab1));
+		Assert.assertThat(workbook.getTab(title1), sameInstance(tab1));
+		Assert.assertThat(workbook.getTab(2), sameInstance(tab2));
+		Assert.assertThat(workbook.getTab(title2), sameInstance(tab2));
 	}
 
 }

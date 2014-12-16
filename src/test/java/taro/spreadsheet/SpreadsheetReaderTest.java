@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.RichTextString;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.junit.Test;
@@ -177,15 +178,27 @@ public class SpreadsheetReaderTest {
 					public Cell answer(InvocationOnMock invocation) {
 						Integer colIndex = (Integer)invocation.getArguments()[0];
 						Cell mockCell = mock(Cell.class);
+
+						Object value = mockSpreadsheetData[rowIndex][colIndex];
+						if (value == null) {
+							when(mockCell.getCellType()).thenReturn(Cell.CELL_TYPE_BLANK);
+							return mockCell;
+						}
+
 						try {
 							String retVal = (String)mockSpreadsheetData[rowIndex][colIndex];
 							when(mockCell.getStringCellValue()).thenReturn(retVal);
+							RichTextString richTextString = mock(RichTextString.class);
+							when(richTextString.getString()).thenReturn(retVal);
+							when(mockCell.getRichStringCellValue()).thenReturn(richTextString);
+							when(mockCell.getCellType()).thenReturn(Cell.CELL_TYPE_STRING);
 						} catch(ClassCastException ex) {
 							when(mockCell.getStringCellValue()).thenThrow(new IllegalStateException());
 						}
 						try {
 							Date retVal = (Date)mockSpreadsheetData[rowIndex][colIndex];
 							when(mockCell.getDateCellValue()).thenReturn(retVal);
+							when(mockCell.getCellType()).thenReturn(Cell.CELL_TYPE_NUMERIC);
 						} catch(ClassCastException ex) {
 							when(mockCell.getDateCellValue()).thenThrow(new IllegalStateException());
 						}
@@ -195,8 +208,9 @@ public class SpreadsheetReaderTest {
 								doubleVal = (Double)mockSpreadsheetData[rowIndex][colIndex];
 							}
 							when(mockCell.getNumericCellValue()).thenReturn(doubleVal);
+							when(mockCell.getCellType()).thenReturn(Cell.CELL_TYPE_NUMERIC);
 						} catch(ClassCastException ex) {
-							when(mockCell.getNumericCellValue()).thenThrow(new IllegalStateException());
+							when(mockCell.getNumericCellValue()).thenThrow(new NumberFormatException());
 						}
 						return mockCell;
 					}

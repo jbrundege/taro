@@ -19,6 +19,9 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class SpreadsheetWorkbook {
 
 	private XSSFWorkbook workbook;
+	private Map<Integer, SpreadsheetTab> tabsByIndex = newHashMap();
+	private Map<String, SpreadsheetTab> tabsByTitle = newHashMap();
+
 	private Map<SpreadsheetFont, Font> fontMap = newHashMap();
 	private Map<SpreadsheetCellStyle, CellStyle> styleMap = newHashMap();
 
@@ -31,15 +34,21 @@ public class SpreadsheetWorkbook {
 	}
 
 	public SpreadsheetTab createTab(String title) {
-		return new SpreadsheetTab(this, title);
+		if (getTab(title) != null) {
+			throw new IllegalArgumentException("Workbook already has a sheet with title: " + title);
+		}
+		SpreadsheetTab tab = new SpreadsheetTab(this, title);
+		tabsByTitle.put(title, tab);
+		tabsByIndex.put(getPoiWorkbook().getSheetIndex(tab.getPoiSheet()), tab);
+		return tab;
 	}
 
 	public SpreadsheetTab getTab(int index) {
-		return new SpreadsheetTab(this, workbook.getSheetAt(index));
+		return tabsByIndex.get(index);
 	}
 
 	public SpreadsheetTab getTab(String title) {
-		return new SpreadsheetTab(this, workbook.getSheet(title));
+		return tabsByTitle.get(title);
 	}
 
 	public Workbook getPoiWorkbook() {

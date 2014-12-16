@@ -7,6 +7,7 @@ import java.util.Date;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.RichTextString;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 
@@ -15,6 +16,7 @@ import taro.spreadsheet.TaroSpreadsheetException;
 
 public class SpreadsheetCell {
 
+	private DataFormatter dataFormatter = new DataFormatter();
 	private SpreadsheetTab tab;
 	private Cell cell;
 	private SpreadsheetCellStyle style;
@@ -73,9 +75,14 @@ public class SpreadsheetCell {
 		} else if (value instanceof RichTextString) {
 			cell.setCellValue((RichTextString)value);
 		} else {
-			throw new TaroSpreadsheetException(format("Cannot set a %s [%s] as the spreadsheet cell content.", value.getClass().getSimpleName(), value.toString()));
+			throw new TaroSpreadsheetException(format("Cannot set a %s [%s] as the spreadsheet cell content.",
+					value.getClass().getSimpleName(), value.toString()));
 		}
 		return this;
+	}
+
+	public String getValue() {
+		return dataFormatter.formatCellValue(cell);
 	}
 
 	public Cell getCell() {
@@ -96,7 +103,7 @@ public class SpreadsheetCell {
 
 	public int getFontSizeInPoints() {
 		if (style != null) {
-			taro.spreadsheet.model.SpreadsheetFont font = style.getFont();
+			SpreadsheetFont font = style.getFont();
 			if (font != null) {
 				Integer size = font.getFontSizeInPoints();
 				if (size != null) {
