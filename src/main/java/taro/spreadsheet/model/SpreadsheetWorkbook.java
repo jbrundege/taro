@@ -59,7 +59,7 @@ public class SpreadsheetWorkbook {
         return tabsByTitle.get(title);
     }
 
-    public Workbook getPoiWorkbook() {
+    public XSSFWorkbook getPoiWorkbook() {
         return workbook;
     }
 
