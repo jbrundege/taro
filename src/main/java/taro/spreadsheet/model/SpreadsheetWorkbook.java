@@ -1,20 +1,20 @@
 package taro.spreadsheet.model;
 
-import static com.google.common.collect.Maps.*;
-import static com.google.common.primitives.Shorts.checkedCast;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFColor;
+import org.apache.poi.xssf.usermodel.XSSFFont;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Collections;
 import java.util.Map;
 
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.Font;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFCellStyle;
-import org.apache.poi.xssf.usermodel.XSSFColor;
-import org.apache.poi.xssf.usermodel.XSSFFont;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import static com.google.common.collect.Maps.newHashMap;
+import static com.google.common.primitives.Shorts.checkedCast;
 
 public class SpreadsheetWorkbook {
 
@@ -39,8 +39,21 @@ public class SpreadsheetWorkbook {
 
     public SpreadsheetWorkbook(XSSFWorkbook workbook) {
         this.workbook = workbook;
+        
+        if (workbook.getNumberOfSheets() > 0){
+            for (int index = 0; index < workbook.getNumberOfSheets(); index++ ){
+                Sheet sheet = workbook.getSheetAt(index);
+                createExistingTab(sheet);
+            }
+        }
     }
 
+    private void createExistingTab(Sheet sheet) {
+        SpreadsheetTab tab = new SpreadsheetTab(this, sheet);
+        tabsByTitle.put(sheet.getSheetName(), tab);
+        tabsByIndex.put(getPoiWorkbook().getSheetIndex(tab.getPoiSheet()), tab);
+    }
+    
     public SpreadsheetTab createTab(String title) {
         if (getTab(title) != null) {
             throw new IllegalArgumentException("Workbook already has a sheet with title: " + title);
@@ -55,11 +68,13 @@ public class SpreadsheetWorkbook {
         return tabsByIndex.get(index);
     }
 
+  
+
     public SpreadsheetTab getTab(String title) {
         return tabsByTitle.get(title);
     }
 
-    public Workbook getPoiWorkbook() {
+    public XSSFWorkbook getPoiWorkbook() {
         return workbook;
     }
 

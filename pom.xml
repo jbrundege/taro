@@ -4,7 +4,7 @@
 
     <groupId>taro</groupId>
     <artifactId>taro</artifactId>
-    <version>0.3</version>
+    <version>0.4</version>
 
     <build>
         <plugins>
@@ -87,9 +87,10 @@
         </dependency>
 
     </dependencies>
-    
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
+    
 </project>

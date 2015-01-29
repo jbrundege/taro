@@ -1,19 +1,13 @@
 package taro.spreadsheet.model;
 
-import static com.google.common.collect.Maps.*;
-import static taro.spreadsheet.model.SpreadsheetCellStyle.DEFAULT;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.ss.util.CellReference;
 
 import java.util.Map;
 
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.ClientAnchor;
-import org.apache.poi.ss.usermodel.Drawing;
-import org.apache.poi.ss.usermodel.Picture;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.util.CellRangeAddress;
-import org.apache.poi.ss.util.CellReference;
+import static com.google.common.collect.Maps.newHashMap;
+import static taro.spreadsheet.model.SpreadsheetCellStyle.DEFAULT;
 
 public class SpreadsheetTab {
 
