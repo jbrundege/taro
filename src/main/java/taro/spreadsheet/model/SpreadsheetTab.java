@@ -14,11 +14,12 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.CellReference;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 public class SpreadsheetTab {
 
     private SpreadsheetWorkbook workbook;
-    private Sheet sheet;
+    private XSSFSheet sheet;
     private Map<String, SpreadsheetCell> cells = newHashMap();
     private Drawing drawing;
 
@@ -30,7 +31,7 @@ public class SpreadsheetTab {
         this.sheet = workbook.getPoiWorkbook().createSheet(title);
     }
 
-    SpreadsheetTab(SpreadsheetWorkbook workbook, Sheet sheet) {
+    SpreadsheetTab(SpreadsheetWorkbook workbook, XSSFSheet sheet) {
         this.workbook = workbook;
         this.sheet = sheet;
     }
