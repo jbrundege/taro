@@ -28,6 +28,14 @@ public class SpreadsheetWorkbook {
     public SpreadsheetWorkbook() {
         this(new XSSFWorkbook());
     }
+    
+    public SpreadsheetWorkbook(org.apache.poi.openxml4j.opc.OPCPackage opcPackage) throws IOException {
+        this(new XSSFWorkbook(opcPackage));
+    }
+    
+    public SpreadsheetWorkbook(java.io.InputStream inputStream) throws IOException {
+        this(new XSSFWorkbook(inputStream));
+    }
 
     public SpreadsheetWorkbook(XSSFWorkbook workbook) {
         this.workbook = workbook;
