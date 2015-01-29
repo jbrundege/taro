@@ -4,7 +4,7 @@
 
     <groupId>taro</groupId>
     <artifactId>taro</artifactId>
-    <version>0.4-SNAPSHOT</version>
+    <version>0.3</version>
 
     <build>
         <plugins>
