@@ -1,25 +1,18 @@
 package taro.spreadsheet.model;
 
-import static com.google.common.collect.Maps.*;
-import static taro.spreadsheet.model.SpreadsheetCellStyle.DEFAULT;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.ss.util.CellReference;
 
 import java.util.Map;
 
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.ClientAnchor;
-import org.apache.poi.ss.usermodel.Drawing;
-import org.apache.poi.ss.usermodel.Picture;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.util.CellRangeAddress;
-import org.apache.poi.ss.util.CellReference;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
+import static com.google.common.collect.Maps.newHashMap;
+import static taro.spreadsheet.model.SpreadsheetCellStyle.DEFAULT;
 
 public class SpreadsheetTab {
 
     private SpreadsheetWorkbook workbook;
-    private XSSFSheet sheet;
+    private Sheet sheet;
     private Map<String, SpreadsheetCell> cells = newHashMap();
     private Drawing drawing;
 
@@ -31,7 +24,7 @@ public class SpreadsheetTab {
         this.sheet = workbook.getPoiWorkbook().createSheet(title);
     }
 
-    SpreadsheetTab(SpreadsheetWorkbook workbook, XSSFSheet sheet) {
+    SpreadsheetTab(SpreadsheetWorkbook workbook, Sheet sheet) {
         this.workbook = workbook;
         this.sheet = sheet;
     }
