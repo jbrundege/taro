@@ -9,6 +9,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.RichTextString;
+import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 
 import taro.spreadsheet.TaroSpreadsheetException;
@@ -18,10 +19,10 @@ public class SpreadsheetCell {
 
     private DataFormatter dataFormatter = new DataFormatter();
     private SpreadsheetTab tab;
-    private Cell cell;
+    private XSSFCell cell;
     private SpreadsheetCellStyle style;
 
-    SpreadsheetCell(SpreadsheetTab tab, Cell cell) {
+    SpreadsheetCell(SpreadsheetTab tab, XSSFCell cell) {
         this.tab = tab;
         this.cell = cell;
     }
@@ -85,7 +86,7 @@ public class SpreadsheetCell {
         return dataFormatter.formatCellValue(cell);
     }
 
-    public Cell getCell() {
+    public XSSFCell getCell() {
         return cell;
     }
 
@@ -97,9 +98,6 @@ public class SpreadsheetCell {
         return tab;
     }
 
-    public Cell getPoiCell() {
-        return cell;
-    }
 
     public int getFontSizeInPoints() {
         if (style != null) {

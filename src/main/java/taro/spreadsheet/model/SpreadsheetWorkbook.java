@@ -3,10 +3,7 @@ package taro.spreadsheet.model;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.xssf.usermodel.XSSFCellStyle;
-import org.apache.poi.xssf.usermodel.XSSFColor;
-import org.apache.poi.xssf.usermodel.XSSFFont;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.xssf.usermodel.*;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -42,13 +39,13 @@ public class SpreadsheetWorkbook {
         
         if (workbook.getNumberOfSheets() > 0){
             for (int index = 0; index < workbook.getNumberOfSheets(); index++ ){
-                Sheet sheet = workbook.getSheetAt(index);
+                XSSFSheet sheet = workbook.getSheetAt(index);
                 createExistingTab(sheet);
             }
         }
     }
 
-    private void createExistingTab(Sheet sheet) {
+    private void createExistingTab(XSSFSheet sheet) {
         SpreadsheetTab tab = new SpreadsheetTab(this, sheet);
         tabsByTitle.put(sheet.getSheetName(), tab);
         tabsByIndex.put(getPoiWorkbook().getSheetIndex(tab.getPoiSheet()), tab);

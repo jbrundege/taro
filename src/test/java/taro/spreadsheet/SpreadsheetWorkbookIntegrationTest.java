@@ -1,8 +1,5 @@
 package taro.spreadsheet;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
 
 import java.awt.Color;
 import java.io.ByteArrayInputStream;
@@ -17,6 +14,9 @@ import org.junit.Test;
 import taro.spreadsheet.model.SpreadsheetCellStyle;
 import taro.spreadsheet.model.SpreadsheetTab;
 import taro.spreadsheet.model.SpreadsheetWorkbook;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.within;
 
 public class SpreadsheetWorkbookIntegrationTest {
 
@@ -39,19 +39,32 @@ public class SpreadsheetWorkbookIntegrationTest {
         SpreadsheetReader reader = getReader(excelFileBytes);
 
         // Verify the spreadsheet (can't verify the styling automatically, but at least verify the text)
-        assertThat(reader.isString(0, 0), is(true));
-        assertThat(reader.getStringValue(0, 0), is("Some text"));    // A1
+        assertThat(reader.isString(0, 0))
+                .isTrue();
 
-        assertThat(reader.isString(0, 1), is(true));
-        assertThat(reader.getStringValue(0, 1), is("Some subtext"));    // A2
+        assertThat(reader.getStringValue(0, 0))
+                .isEqualTo("Some text");    // A1
 
-        assertThat(reader.isString(1, 0), is(true));
-        assertThat(reader.getStringValue("B1"), is("A multi-line \n text cell"));
+        assertThat(reader.isString(0, 1))
+                .isTrue();
 
-        assertThat(reader.isNumeric(1, 1), is(true));
-        assertThat(reader.getNumericValue("B2"), closeTo(27.5, 0.001));
+        assertThat(reader.getStringValue(0, 1))
+                .isEqualTo("Some subtext");    // A2
 
-        assertThat(reader.getDateValue("C1"), is(date));
+        assertThat(reader.isString(1, 0))
+                .isTrue();
+
+        assertThat(reader.getStringValue("B1"))
+                .isEqualTo("A multi-line \n text cell");
+
+        assertThat(reader.isNumeric(1, 1))
+                .isTrue();
+
+        assertThat(reader.getNumericValue("B2"))
+                .isCloseTo(27.5, within(0.001));
+
+        assertThat(reader.getDateValue("C1"))
+                .isEqualTo(date);
     }
 
     private byte[] writeExcelFileBytes(SpreadsheetWorkbook workbook) throws IOException {

@@ -6,6 +6,7 @@ import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.util.CellReference;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 import java.util.Date;
 import java.util.List;
@@ -56,10 +57,10 @@ public class SpreadsheetReader {
     }
 
 
-    private Sheet sheet;
+    private XSSFSheet sheet;
     private DataFormatter df = new DataFormatter();
 
-    public SpreadsheetReader(Sheet sheet) {
+    public SpreadsheetReader(XSSFSheet sheet) {
         this.sheet = sheet;
     }
 

@@ -3,6 +3,9 @@ package taro.spreadsheet.model;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.CellReference;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 import java.util.Map;
 
@@ -12,7 +15,7 @@ import static taro.spreadsheet.model.SpreadsheetCellStyle.DEFAULT;
 public class SpreadsheetTab {
 
     private SpreadsheetWorkbook workbook;
-    private Sheet sheet;
+    private XSSFSheet sheet;
     private Map<String, SpreadsheetCell> cells = newHashMap();
     private Drawing drawing;
 
@@ -24,7 +27,7 @@ public class SpreadsheetTab {
         this.sheet = workbook.getPoiWorkbook().createSheet(title);
     }
 
-    SpreadsheetTab(SpreadsheetWorkbook workbook, Sheet sheet) {
+    SpreadsheetTab(SpreadsheetWorkbook workbook, XSSFSheet sheet) {
         this.workbook = workbook;
         this.sheet = sheet;
     }
@@ -47,7 +50,7 @@ public class SpreadsheetTab {
     }
 
     public void setValue(int row, int col, Object content, SpreadsheetCellStyle style) {
-        SpreadsheetCell cell = getCell(row, col);
+        SpreadsheetCell cell = getOrCreateCell(row, col);
         cell.setValue(content);
         if (style != null) {
             cell.setStyle(style);
@@ -67,15 +70,19 @@ public class SpreadsheetTab {
     }
 
     public void setStyle(int row, int col, SpreadsheetCellStyle style) {
-        getCell(row, col).setStyle(style);
+        getOrCreateCell(row, col).setStyle(style);
     }
 
     public void setStyle(int firstRow, int lastRow, int firstCol, int lastCol, SpreadsheetCellStyle style) {
         for (int row = firstRow; row <= lastRow; row++) {
             for (int col = firstCol; col <= lastCol; col++) {
-                getCell(row, col).setStyle(style);
+                getOrCreateCell(row, col).setStyle(style);
             }
         }
+    }
+
+    public XSSFSheet getPoiSheet() {
+        return sheet;
     }
 
     public SpreadsheetCell getCell(String cellAddress) {
@@ -86,11 +93,39 @@ public class SpreadsheetTab {
     public SpreadsheetCell getCell(int row, int col) {
         String address = getCellAddress(row, col);
         SpreadsheetCell cell = cells.get(address);
+        return cell;
+    }
+
+    public SpreadsheetCell getOrCreateCell(String cellAddress) {
+        CellReference cellReference = new CellReference(cellAddress);
+        return getOrCreateCell(cellReference.getRow(), cellReference.getCol());
+    }
+
+    public SpreadsheetCell getOrCreateCell(int row, int col) {
+        SpreadsheetCell cell = getCell(row,col);
         if (cell == null) {
-            cell = new SpreadsheetCell(this, getPoiCell(row, col));
+            cell = new SpreadsheetCell(this, getOrCreatePoiCell(row, col));
+            String address = getCellAddress(row, col);
             cells.put(address, cell);
         }
         return cell;
+    }
+
+    public XSSFCell getOrCreatePoiCell(int rowNum, int col) {
+        XSSFRow row = getOrCreatePoiRow(rowNum);
+        XSSFCell cell = row.getCell(col);
+        if (cell == null) {
+            cell = row.createCell(col);
+        }
+        return cell;
+    }
+
+    private XSSFRow getOrCreatePoiRow(int rowNum) {
+        XSSFRow row = sheet.getRow(rowNum);
+        if (row == null) {
+            row = sheet.createRow(rowNum);
+        }
+        return row;
     }
 
     public void mergeCells(String firstCell, String lastCell, Object content, SpreadsheetCellStyle style) {
@@ -157,9 +192,9 @@ public class SpreadsheetTab {
     public void autoSizeRow(int row) {
         float tallestCell = -1;
         for (int col = 0; col <= highestModifiedCol; col++) {
-            SpreadsheetCell cell = getCell(row, col);
+            SpreadsheetCell cell = getOrCreateCell(row, col);
             int fontSize = cell.getFontSizeInPoints();
-            Cell poiCell = cell.getPoiCell();
+            XSSFCell poiCell = cell.getCell();
             if (poiCell.getCellType() == Cell.CELL_TYPE_STRING) {
                 String value = poiCell.getStringCellValue();
                 int numLines = 1;
@@ -198,27 +233,6 @@ public class SpreadsheetTab {
         sheet.setColumnWidth(0, 768);
     }
 
-    @SuppressWarnings("UnusedDeclaration")
-    public Sheet getPoiSheet() {
-        return sheet;
-    }
-
-    public Cell getPoiCell(int rowNum, int col) {
-        Row row = getPoiRow(rowNum);
-        Cell cell = row.getCell(col);
-        if (cell == null) {
-            cell = row.createCell(col);
-        }
-        return cell;
-    }
-
-    private Row getPoiRow(int rowNum) {
-        Row row = sheet.getRow(rowNum);
-        if (row == null) {
-            row = sheet.createRow(rowNum);
-        }
-        return row;
-    }
 
     private void recordCellModified(int row, int col) {
         if (col > highestModifiedCol) {
@@ -274,25 +288,25 @@ public class SpreadsheetTab {
 
     public void setRightBorder(int firstRow, int lastRow, int col, short border) {
         for (int row = firstRow; row <= lastRow; row++) {
-            getCell(row, col).applyStyle(DEFAULT.withRightBorder(border));
+            getOrCreateCell(row, col).applyStyle(DEFAULT.withRightBorder(border));
         }
     }
 
     public void setLeftBorder(int firstRow, int lastRow, int col, short border) {
         for (int row = firstRow; row <= lastRow; row++) {
-            getCell(row, col).applyStyle(DEFAULT.withLeftBorder(border));
+            getOrCreateCell(row, col).applyStyle(DEFAULT.withLeftBorder(border));
         }
     }
 
     public void setTopBorder(int row, int firstCol, int lastCol, short border) {
         for (int col = firstCol; col <= lastCol; col++) {
-            getCell(row, col).applyStyle(DEFAULT.withTopBorder(border));
+            getOrCreateCell(row, col).applyStyle(DEFAULT.withTopBorder(border));
         }
     }
 
     public void setBottomBorder(int row, int firstCol, int lastCol, short border) {
         for (int col = firstCol; col <= lastCol; col++) {
-            getCell(row, col).applyStyle(DEFAULT.withBottomBorder(border));
+            getOrCreateCell(row, col).applyStyle(DEFAULT.withBottomBorder(border));
         }
     }
 

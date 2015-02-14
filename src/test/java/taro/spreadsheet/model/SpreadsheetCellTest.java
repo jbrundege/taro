@@ -1,85 +1,101 @@
 package taro.spreadsheet.model;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.closeTo;
-
-import java.awt.Color;
-import java.util.Calendar;
-import java.util.Date;
-
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.DateUtil;
-import org.apache.poi.ss.usermodel.RichTextString;
-import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFFont;
-import org.apache.poi.xssf.usermodel.XSSFRichTextString;
-import org.hamcrest.Matchers;
-import org.junit.Before;
 import org.junit.Test;
 
-public class SpreadsheetCellTest {
+import java.awt.*;
+import java.util.Calendar;
+import java.util.Date;
 
-    private SpreadsheetCell cell;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.within;
 
-    @Before
-    public void setup() {
-        SpreadsheetWorkbook workbook = new SpreadsheetWorkbook();
-        SpreadsheetTab tab = workbook.createTab("test");
-        cell = tab.getCell("A1");
-    }
+
+public class SpreadsheetCellTest extends AbstractTest {
+
+
 
     @Test
     public void setValueWithString_SetsAStringValueOnTheCell() {
+        SpreadsheetCell cell = getCell();
         cell.setValue("A String");
-        assertThat(cell.getPoiCell().getCellType(), is(Cell.CELL_TYPE_STRING));
-        assertThat(cell.getPoiCell().getStringCellValue(), is("A String"));
+
+        assertThat(cell.getCell().getCellType())
+                .isEqualTo(Cell.CELL_TYPE_STRING);
+
+        assertThat(cell.getCell().getStringCellValue())
+                .isEqualTo("A String");
     }
 
     @Test
     public void setValueWithStringFormula_SetsAFormulaOnTheCell() {
+        SpreadsheetCell cell = getCell();
+
         cell.setValue("=B1*C1");    // formula is any string starting with an equals (=) sign
-        assertThat(cell.getPoiCell().getCellType(), is(Cell.CELL_TYPE_FORMULA));
-        assertThat(cell.getPoiCell().getCellFormula(), is("B1*C1"));
+
+        assertThat(cell.getCell().getCellType())
+                .isEqualTo(Cell.CELL_TYPE_FORMULA);
+
+        assertThat(cell.getCell().getCellFormula())
+                .isEqualTo("B1*C1");
     }
 
     @Test
     public void setValueWithShort_SetsANumericValueOnTheCell() {
-        cell.setValue((short)12);
-        assertThat(cell.getPoiCell().getCellType(), is(Cell.CELL_TYPE_NUMERIC));
-        assertThat(cell.getPoiCell().getNumericCellValue(), is(12.0));
+        SpreadsheetCell cell = getCell();
+        cell.setValue((short) 12);
+        assertThat(cell.getCell().getCellType())
+                .isEqualTo(Cell.CELL_TYPE_NUMERIC);
+        
+        assertThat(cell.getCell().getNumericCellValue())
+                .isEqualTo(12.0);
     }
 
     @Test
     public void setValueWithInteger_SetsANumericValueOnTheCell() {
+        SpreadsheetCell cell = getCell();
         cell.setValue(12);
-        assertThat(cell.getPoiCell().getCellType(), is(Cell.CELL_TYPE_NUMERIC));
-        assertThat(cell.getPoiCell().getNumericCellValue(), is(12.0));
+        assertThat(cell.getCell().getCellType())
+                .isEqualTo(Cell.CELL_TYPE_NUMERIC);
+        assertThat(cell.getCell().getNumericCellValue())
+                .isEqualTo(12.0);
     }
 
     @Test
     public void setValueWithLong_SetsANumericValueOnTheCell() {
+        SpreadsheetCell cell = getCell();
+
         cell.setValue(12L);
-        assertThat(cell.getPoiCell().getCellType(), is(Cell.CELL_TYPE_NUMERIC));
-        assertThat(cell.getPoiCell().getNumericCellValue(), is(12.0));
+        
+        assertThat(cell.getCell().getCellType())
+                .isEqualTo(Cell.CELL_TYPE_NUMERIC);
+        assertThat(cell.getCell().getNumericCellValue())
+                .isEqualTo(12.0);
     }
 
     @Test
     public void setValueWithFloat_SetsANumericValueOnTheCell() {
+
+        SpreadsheetCell cell = getCell();
         cell.setValue(12f);
-        assertThat(cell.getPoiCell().getCellType(), is(Cell.CELL_TYPE_NUMERIC));
-        assertThat(cell.getPoiCell().getNumericCellValue(), is(12.0));
+        
+        assertThat(cell.getCell().getCellType())
+                .isEqualTo(Cell.CELL_TYPE_NUMERIC);
+        assertThat(cell.getCell().getNumericCellValue())
+                .isEqualTo(12.0);
     }
 
     @Test
     public void setValueWithDouble_SetsANumericValueOnTheCell() {
+        SpreadsheetCell cell = getCell();
         cell.setValue(12.0);
-        assertThat(cell.getPoiCell().getCellType(), is(Cell.CELL_TYPE_NUMERIC));
-        assertThat(cell.getPoiCell().getNumericCellValue(), is(12.0));
+        assertThat(cell.getCell().getCellType())
+                .isEqualTo(Cell.CELL_TYPE_NUMERIC);
+        assertThat(cell.getCell().getNumericCellValue())
+                .isEqualTo(12.0);
     }
 
     @Test
@@ -87,9 +103,12 @@ public class SpreadsheetCellTest {
         Date date = new Date();
         double excelDateNumber = DateUtil.getExcelDate(date);
 
+        SpreadsheetCell cell = getCell();
         cell.setValue(date);
-        assertThat(cell.getPoiCell().getCellType(), is(Cell.CELL_TYPE_NUMERIC));
-        assertThat(cell.getPoiCell().getNumericCellValue(), closeTo(excelDateNumber, 0.001));
+        assertThat(cell.getCell().getCellType())
+                .isEqualTo(Cell.CELL_TYPE_NUMERIC);
+        assertThat(cell.getCell().getNumericCellValue())
+                .isCloseTo(excelDateNumber, within(0.001));
     }
 
     @Test
@@ -97,45 +116,70 @@ public class SpreadsheetCellTest {
         Calendar calendar = Calendar.getInstance();
         double excelDateNumber = DateUtil.getExcelDate(calendar.getTime());
 
+        SpreadsheetCell cell = getCell();
         cell.setValue(calendar);
-        assertThat(cell.getPoiCell().getCellType(), is(Cell.CELL_TYPE_NUMERIC));
-        assertThat(cell.getPoiCell().getNumericCellValue(), closeTo(excelDateNumber, 0.001));
+
+        assertThat(cell.getCell().getCellType())
+                .isEqualTo(Cell.CELL_TYPE_NUMERIC);
+
+        assertThat(cell.getCell().getNumericCellValue())
+                .isCloseTo(excelDateNumber, within(0.001));
     }
 
     @Test
     public void setValueWithBoolean_SetsABooleanValueOnTheCell() {
+        SpreadsheetCell cell = getCell();
         cell.setValue(true);
-        assertThat(cell.getPoiCell().getCellType(), is(Cell.CELL_TYPE_BOOLEAN));
-        assertThat(cell.getPoiCell().getBooleanCellValue(), is(true));
+        assertThat(cell.getCell().getCellType())
+                .isEqualTo(Cell.CELL_TYPE_BOOLEAN);
+
+        assertThat(cell.getCell().getBooleanCellValue())
+                .isTrue();
     }
 
     @Test
     public void setValueWithNull_SetsABlankValueOnTheCell() {
+
+        SpreadsheetCell cell = getCell();
         cell.setValue("A String to value to start with");
         cell.setValue(null);    // wipe out the string value
-        assertThat(cell.getPoiCell().getCellType(), is(Cell.CELL_TYPE_BLANK));
-        assertThat(cell.getPoiCell().getStringCellValue(), is(""));
+
+        assertThat(cell.getCell().getCellType())
+                .isEqualTo(Cell.CELL_TYPE_BLANK);
+
+        assertThat(cell.getCell().getStringCellValue())
+                .isEmpty();
     }
 
     @Test
     public void cellsStyle_IsNullUntilSet() {
-        assertThat(cell.getStyle(), is(nullValue()));
+        SpreadsheetCell cell = getCell();
+        
+        assertThat(cell.getStyle())
+                .isNull();;
 
         SpreadsheetCellStyle cellStyle = new SpreadsheetCellStyle().withAlign(CellStyle.ALIGN_CENTER);
         cell.setStyle(cellStyle);
 
-        assertThat(cell.getStyle(), is(notNullValue()));
-        assertThat(cell.getStyle(), is(cellStyle));
+        assertThat(cell.getStyle())
+                .isNotNull();
+
+        assertThat(cell.getStyle())
+                .isEqualTo(cellStyle);
     }
 
     @Test
     public void applyStyle_MergesAStyleOntoACell() {
-        SpreadsheetCellStyle originalStyle = new SpreadsheetCellStyle().withAlign(CellStyle.ALIGN_CENTER).withBold(true)
+        SpreadsheetCellStyle originalStyle = new SpreadsheetCellStyle()
+                .withAlign(CellStyle.ALIGN_CENTER)
+                .withBold(true)
                 .withTopBorder(CellStyle.BORDER_MEDIUM)
                 .withLeftBorder(CellStyle.BORDER_MEDIUM)
                 .withBottomBorder(CellStyle.BORDER_MEDIUM)
                 .withRightBorder(CellStyle.BORDER_MEDIUM);
 
+
+        SpreadsheetCell cell = getCell();
         cell.setStyle(originalStyle);
 
         SpreadsheetCellStyle styleToApply = new SpreadsheetCellStyle()
@@ -148,40 +192,79 @@ public class SpreadsheetCellTest {
         cell.applyStyle(styleToApply);
 
         SpreadsheetCellStyle currentStyle = cell.getStyle();
-        assertThat(currentStyle.getAlign(), is(CellStyle.ALIGN_CENTER));
-        assertThat(currentStyle.getBold(), is(true));
-        assertThat(currentStyle.getTopBorder(), is(CellStyle.BORDER_MEDIUM));
-        assertThat(currentStyle.getLeftBorder(), is(CellStyle.BORDER_MEDIUM));
-        assertThat(currentStyle.getBottomBorder(), is(CellStyle.BORDER_MEDIUM));
-        assertThat(currentStyle.getRightBorder(), is(CellStyle.BORDER_MEDIUM));
-        assertThat(currentStyle.getTopBorderColor(), is(Color.RED));
-        assertThat(currentStyle.getLeftBorderColor(), is(Color.RED));
-        assertThat(currentStyle.getBottomBorderColor(), is(Color.RED));
-        assertThat(currentStyle.getRightBorderColor(), is(Color.RED));
+        assertThat(currentStyle.getAlign())
+                .isEqualTo(CellStyle.ALIGN_CENTER);
+
+        assertThat(currentStyle.getBold())
+                .isTrue();
+
+        assertThat(currentStyle.getTopBorder())
+                .isEqualTo(CellStyle.BORDER_MEDIUM);
+
+        assertThat(currentStyle.getLeftBorder())
+                .isEqualTo(CellStyle.BORDER_MEDIUM);
+
+        assertThat(currentStyle.getBottomBorder())
+                .isEqualTo(CellStyle.BORDER_MEDIUM);
+
+        assertThat(currentStyle.getRightBorder())
+                .isEqualTo(CellStyle.BORDER_MEDIUM);
+
+        assertThat(currentStyle.getTopBorderColor())
+                .isEqualTo(Color.RED);
+
+        assertThat(currentStyle.getLeftBorderColor())
+                .isEqualTo(Color.RED);
+
+        assertThat(currentStyle.getBottomBorderColor())
+                .isEqualTo(Color.RED);
+
+        assertThat(currentStyle.getRightBorderColor())
+                .isEqualTo(Color.RED);
     }
 
     @Test
     public void getFontSizeInPoints_ReturnsFontSizeIfAStyleWithAFontExists() {
         SpreadsheetCellStyle cellStyle = new SpreadsheetCellStyle().withFontSizeInPoints(15);
+
+        SpreadsheetCell cell = getCell();
         cell.setStyle(cellStyle);
-        assertThat(cell.getFontSizeInPoints(), is(15));
+        assertThat(cell.getFontSizeInPoints()).isEqualTo(15);
     }
 
     @Test
     public void getFontSizeInPoints_ReturnsTheDefaultFontSizeIfStyleOrFontIsNull() {
-        assertThat(cell.getStyle(), is(nullValue()));
-        assertThat(cell.getFontSizeInPoints(), is((int)XSSFFont.DEFAULT_FONT_SIZE));
+
+        SpreadsheetCell cell = getCell();
+        
+        assertThat(cell.getStyle())
+                .isNull();
+        assertThat(cell.getFontSizeInPoints())
+                .isEqualTo((int) XSSFFont.DEFAULT_FONT_SIZE);
 
         cell.setStyle(new SpreadsheetCellStyle());
-        assertThat(cell.getStyle(), is(notNullValue()));
-        assertThat(cell.getStyle().getFont(), is(nullValue()));
-        assertThat(cell.getFontSizeInPoints(), is((int) XSSFFont.DEFAULT_FONT_SIZE));
+
+        assertThat(cell.getStyle())
+                .isNotNull();
+        assertThat(cell.getStyle().getFont())
+                .isNull();
+
+        assertThat(cell.getFontSizeInPoints())
+                .isEqualTo((int) XSSFFont.DEFAULT_FONT_SIZE);
 
         cell.setStyle(new SpreadsheetCellStyle().withFontSizeInPoints(17));
-        assertThat(cell.getStyle(), is(notNullValue()));
-        assertThat(cell.getStyle().getFont(), is(notNullValue()));
-        assertThat(cell.getFontSizeInPoints(), is(not((int) XSSFFont.DEFAULT_FONT_SIZE)));
-        assertThat(cell.getFontSizeInPoints(), is(17));
+
+        assertThat(cell.getStyle())
+                .isNotNull();
+
+        assertThat(cell.getStyle().getFont())
+                .isNotNull();
+
+        assertThat(cell.getFontSizeInPoints())
+                .isNotEqualTo((int) XSSFFont.DEFAULT_FONT_SIZE);
+
+        assertThat(cell.getFontSizeInPoints())
+                .isEqualTo(17);
     }
 
 }
