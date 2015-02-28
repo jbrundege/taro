@@ -219,13 +219,15 @@ public class SpreadsheetTab {
 
     public float computeRowHeightInPoints(int fontSizeInPoints, int numLines) {
         // a crude approximation of what excel does
-        float defaultRowHeightInPoints = sheet.getDefaultRowHeightInPoints();
         float lineHeightInPoints = 1.3f * fontSizeInPoints;
-        if (lineHeightInPoints < defaultRowHeightInPoints + 1) {
-            lineHeightInPoints = defaultRowHeightInPoints;
-        }
         float rowHeightInPoints = lineHeightInPoints * numLines;
         rowHeightInPoints = Math.round(rowHeightInPoints * 4) / 4f;        // round to the nearest 0.25
+
+        // Don't shrink rows to fit the font, only grow them
+        float defaultRowHeightInPoints = sheet.getDefaultRowHeightInPoints();
+        if (rowHeightInPoints < defaultRowHeightInPoints + 1) {
+            rowHeightInPoints = defaultRowHeightInPoints;
+        }
         return rowHeightInPoints;
     }
 

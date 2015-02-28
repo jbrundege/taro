@@ -120,12 +120,26 @@ public class SpreadsheetTabTest extends AbstractTest {
     public void computeRowHeightInPoints_SetsHeightTo1point3TimesFontHeight() {
         int fontSize = 11;
         int numLines = 5;
-        double expectedRowHeight = 75;    // 11 * 1.3 * 5 rounded to nearest 0.25
+        double expectedRowHeight = 71.5;    // 11 * 1.3 * 5 rounded to nearest 0.25
 
         SpreadsheetTab tab = getSpreadsheetTab();
 
         assertThat((double)tab.computeRowHeightInPoints(fontSize, numLines))
                 .isCloseTo(expectedRowHeight, within(0.0000001));
+    }
+
+    @Test
+    public void computeRowHeightInPoints_DoesNotShrinkRowsFromDefaultHeight() {
+        int fontSize = 6;
+        int numLines = 1;
+        // calculated row height is less than the default height, so is not used
+        double calculatedRowHeight = 7.8;    // 6 * 1.3 * 1 rounded to nearest 0.25
+
+        SpreadsheetTab tab = getSpreadsheetTab();
+
+        assertThat((double) tab.computeRowHeightInPoints(fontSize, numLines))
+                .isGreaterThan(calculatedRowHeight)
+                .isCloseTo(tab.getPoiSheet().getDefaultRowHeightInPoints(), within(0.0000001));
     }
 
     @Test
@@ -139,7 +153,7 @@ public class SpreadsheetTabTest extends AbstractTest {
 
         tab.setStyle("A1", "D1", LEFT.withFontSizeInPoints(13));
 
-        double expectedRowHeight = 50.75;     // 13 * 1.35 * 3 rounded to nearest 0.25
+        double expectedRowHeight = 50.75;     // 13 * 1.3 * 3 rounded to nearest 0.25
 
         tab.autosizeRows();
 
