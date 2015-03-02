@@ -111,7 +111,7 @@ public class SpreadsheetTab {
         return cell;
     }
 
-    public XSSFCell getOrCreatePoiCell(int rowNum, int col) {
+    private XSSFCell getOrCreatePoiCell(int rowNum, int col) {
         XSSFRow row = getOrCreatePoiRow(rowNum);
         XSSFCell cell = row.getCell(col);
         if (cell == null) {
@@ -194,7 +194,7 @@ public class SpreadsheetTab {
         for (int col = 0; col <= highestModifiedCol; col++) {
             SpreadsheetCell cell = getOrCreateCell(row, col);
             int fontSize = cell.getFontSizeInPoints();
-            XSSFCell poiCell = cell.getCell();
+            XSSFCell poiCell = cell.getPoiCell();
             if (poiCell.getCellType() == Cell.CELL_TYPE_STRING) {
                 String value = poiCell.getStringCellValue();
                 int numLines = 1;

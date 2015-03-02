@@ -23,10 +23,10 @@ public class SpreadsheetCellTest extends AbstractTest {
         SpreadsheetCell cell = getCell();
         cell.setValue("A String");
 
-        assertThat(cell.getCell().getCellType())
+        assertThat(cell.getPoiCell().getCellType())
                 .isEqualTo(Cell.CELL_TYPE_STRING);
 
-        assertThat(cell.getCell().getStringCellValue())
+        assertThat(cell.getPoiCell().getStringCellValue())
                 .isEqualTo("A String");
     }
 
@@ -36,10 +36,10 @@ public class SpreadsheetCellTest extends AbstractTest {
 
         cell.setValue("=B1*C1");    // formula is any string starting with an equals (=) sign
 
-        assertThat(cell.getCell().getCellType())
+        assertThat(cell.getPoiCell().getCellType())
                 .isEqualTo(Cell.CELL_TYPE_FORMULA);
 
-        assertThat(cell.getCell().getCellFormula())
+        assertThat(cell.getPoiCell().getCellFormula())
                 .isEqualTo("B1*C1");
     }
 
@@ -47,10 +47,10 @@ public class SpreadsheetCellTest extends AbstractTest {
     public void setValueWithShort_SetsANumericValueOnTheCell() {
         SpreadsheetCell cell = getCell();
         cell.setValue((short) 12);
-        assertThat(cell.getCell().getCellType())
+        assertThat(cell.getPoiCell().getCellType())
                 .isEqualTo(Cell.CELL_TYPE_NUMERIC);
         
-        assertThat(cell.getCell().getNumericCellValue())
+        assertThat(cell.getPoiCell().getNumericCellValue())
                 .isEqualTo(12.0);
     }
 
@@ -58,9 +58,9 @@ public class SpreadsheetCellTest extends AbstractTest {
     public void setValueWithInteger_SetsANumericValueOnTheCell() {
         SpreadsheetCell cell = getCell();
         cell.setValue(12);
-        assertThat(cell.getCell().getCellType())
+        assertThat(cell.getPoiCell().getCellType())
                 .isEqualTo(Cell.CELL_TYPE_NUMERIC);
-        assertThat(cell.getCell().getNumericCellValue())
+        assertThat(cell.getPoiCell().getNumericCellValue())
                 .isEqualTo(12.0);
     }
 
@@ -70,9 +70,9 @@ public class SpreadsheetCellTest extends AbstractTest {
 
         cell.setValue(12L);
         
-        assertThat(cell.getCell().getCellType())
+        assertThat(cell.getPoiCell().getCellType())
                 .isEqualTo(Cell.CELL_TYPE_NUMERIC);
-        assertThat(cell.getCell().getNumericCellValue())
+        assertThat(cell.getPoiCell().getNumericCellValue())
                 .isEqualTo(12.0);
     }
 
@@ -82,9 +82,9 @@ public class SpreadsheetCellTest extends AbstractTest {
         SpreadsheetCell cell = getCell();
         cell.setValue(12f);
         
-        assertThat(cell.getCell().getCellType())
+        assertThat(cell.getPoiCell().getCellType())
                 .isEqualTo(Cell.CELL_TYPE_NUMERIC);
-        assertThat(cell.getCell().getNumericCellValue())
+        assertThat(cell.getPoiCell().getNumericCellValue())
                 .isEqualTo(12.0);
     }
 
@@ -92,9 +92,9 @@ public class SpreadsheetCellTest extends AbstractTest {
     public void setValueWithDouble_SetsANumericValueOnTheCell() {
         SpreadsheetCell cell = getCell();
         cell.setValue(12.0);
-        assertThat(cell.getCell().getCellType())
+        assertThat(cell.getPoiCell().getCellType())
                 .isEqualTo(Cell.CELL_TYPE_NUMERIC);
-        assertThat(cell.getCell().getNumericCellValue())
+        assertThat(cell.getPoiCell().getNumericCellValue())
                 .isEqualTo(12.0);
     }
 
@@ -105,9 +105,9 @@ public class SpreadsheetCellTest extends AbstractTest {
 
         SpreadsheetCell cell = getCell();
         cell.setValue(date);
-        assertThat(cell.getCell().getCellType())
+        assertThat(cell.getPoiCell().getCellType())
                 .isEqualTo(Cell.CELL_TYPE_NUMERIC);
-        assertThat(cell.getCell().getNumericCellValue())
+        assertThat(cell.getPoiCell().getNumericCellValue())
                 .isCloseTo(excelDateNumber, within(0.001));
     }
 
@@ -119,10 +119,10 @@ public class SpreadsheetCellTest extends AbstractTest {
         SpreadsheetCell cell = getCell();
         cell.setValue(calendar);
 
-        assertThat(cell.getCell().getCellType())
+        assertThat(cell.getPoiCell().getCellType())
                 .isEqualTo(Cell.CELL_TYPE_NUMERIC);
 
-        assertThat(cell.getCell().getNumericCellValue())
+        assertThat(cell.getPoiCell().getNumericCellValue())
                 .isCloseTo(excelDateNumber, within(0.001));
     }
 
@@ -130,10 +130,10 @@ public class SpreadsheetCellTest extends AbstractTest {
     public void setValueWithBoolean_SetsABooleanValueOnTheCell() {
         SpreadsheetCell cell = getCell();
         cell.setValue(true);
-        assertThat(cell.getCell().getCellType())
+        assertThat(cell.getPoiCell().getCellType())
                 .isEqualTo(Cell.CELL_TYPE_BOOLEAN);
 
-        assertThat(cell.getCell().getBooleanCellValue())
+        assertThat(cell.getPoiCell().getBooleanCellValue())
                 .isTrue();
     }
 
@@ -144,10 +144,10 @@ public class SpreadsheetCellTest extends AbstractTest {
         cell.setValue("A String to value to start with");
         cell.setValue(null);    // wipe out the string value
 
-        assertThat(cell.getCell().getCellType())
+        assertThat(cell.getPoiCell().getCellType())
                 .isEqualTo(Cell.CELL_TYPE_BLANK);
 
-        assertThat(cell.getCell().getStringCellValue())
+        assertThat(cell.getPoiCell().getStringCellValue())
                 .isEmpty();
     }
 
@@ -156,7 +156,7 @@ public class SpreadsheetCellTest extends AbstractTest {
         SpreadsheetCell cell = getCell();
         
         assertThat(cell.getStyle())
-                .isNull();;
+                .isNull();
 
         SpreadsheetCellStyle cellStyle = new SpreadsheetCellStyle().withAlign(CellStyle.ALIGN_CENTER);
         cell.setStyle(cellStyle);

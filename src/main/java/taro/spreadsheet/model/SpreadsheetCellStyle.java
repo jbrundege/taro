@@ -10,6 +10,7 @@ import java.awt.Color;
 
 import org.apache.commons.lang3.StringUtils;
 
+@SuppressWarnings("UnusedDeclaration")
 public class SpreadsheetCellStyle {
 
     // Colors from the excel 'styles' box on the toolbar

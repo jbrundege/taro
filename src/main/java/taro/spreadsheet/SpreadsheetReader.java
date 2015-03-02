@@ -28,6 +28,7 @@ import static org.apache.commons.lang3.StringUtils.trim;
  * The getDateValue method returns null if the cell doesn't exist or is empty, and throws an exception if the
  * value is not a date.
  */
+@SuppressWarnings("UnusedDeclaration")
 public class SpreadsheetReader {
 
     /**

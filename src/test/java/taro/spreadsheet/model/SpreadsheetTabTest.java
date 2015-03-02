@@ -3,7 +3,6 @@ package taro.spreadsheet.model;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.util.CellRangeAddress;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Test;
 
 import static org.apache.poi.ss.usermodel.CellStyle.BORDER_MEDIUM;
@@ -47,7 +46,7 @@ public class SpreadsheetTabTest extends AbstractTest {
         assertThat(tab.getCell(2, 2).getValue())
                 .isEqualTo("three");
 
-        assertThat(tab.getCell(2, 2).getCell().getCellStyle().getAlignment())
+        assertThat(tab.getCell(2, 2).getPoiCell().getCellStyle().getAlignment())
                 .isEqualTo(CellStyle.ALIGN_CENTER);
     }
 

@@ -1,15 +1,12 @@
 package taro.spreadsheet;
 
-import static org.junit.Assert.*;
-
-import java.util.Date;
-import java.util.List;
-
-import org.apache.poi.ss.usermodel.DataFormatter;
 import org.junit.Test;
 import taro.spreadsheet.model.AbstractTest;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.fail;
 
 public class SpreadsheetReaderTest extends AbstractTest {
 
@@ -125,8 +122,6 @@ public class SpreadsheetReaderTest extends AbstractTest {
     public void readDown_ReadsNumericColumn() {
         SpreadsheetReader sheet = new SpreadsheetReader(getSpreadsheetTabWithValues().getPoiSheet());
         String[] values = sheet.readDown("B2", 3);
-
-        DataFormatter dataFormatter = new DataFormatter();
 
         assertThat(values.length)
                 .isEqualTo(3);

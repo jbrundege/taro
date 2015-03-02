@@ -1,20 +1,19 @@
 package taro.spreadsheet.model;
 
-import static java.lang.String.format;
-
-import java.util.Calendar;
-import java.util.Date;
-
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.RichTextString;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFFont;
-
 import taro.spreadsheet.TaroSpreadsheetException;
 
+import java.util.Calendar;
+import java.util.Date;
 
+import static java.lang.String.format;
+
+
+@SuppressWarnings("UnusedDeclaration")
 public class SpreadsheetCell {
 
     private DataFormatter dataFormatter = new DataFormatter();
@@ -86,7 +85,7 @@ public class SpreadsheetCell {
         return dataFormatter.formatCellValue(cell);
     }
 
-    public XSSFCell getCell() {
+    public XSSFCell getPoiCell() {
         return cell;
     }
 

@@ -2,6 +2,7 @@ package taro.spreadsheet;
 
 import taro.TaroException;
 
+@SuppressWarnings("UnusedDeclaration")
 public class TaroSpreadsheetException extends TaroException {
 
     public TaroSpreadsheetException() {
