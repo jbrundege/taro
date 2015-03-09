@@ -8,9 +8,16 @@
         <version>9</version>
     </parent>
 
-    <groupId>taro</groupId>
+    <groupId>org.bioquery</groupId>
     <artifactId>taro</artifactId>
     <version>0.4</version>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
 
     <build>
         <plugins>
@@ -39,7 +46,18 @@
                     <noDeploy>true</noDeploy>
                 </configuration>
             </plugin>
-        </plugins>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.3</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
+       </plugins>
     </build>
 
     <dependencies>
