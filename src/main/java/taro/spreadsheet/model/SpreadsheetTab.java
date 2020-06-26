@@ -1,6 +1,11 @@
 package taro.spreadsheet.model;
 
-import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.ClientAnchor;
+import org.apache.poi.ss.usermodel.Drawing;
+import org.apache.poi.ss.usermodel.Picture;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -195,7 +200,7 @@ public class SpreadsheetTab {
             SpreadsheetCell cell = getOrCreateCell(row, col);
             int fontSize = cell.getFontSizeInPoints();
             XSSFCell poiCell = cell.getPoiCell();
-            if (poiCell.getCellType() == Cell.CELL_TYPE_STRING) {
+            if (poiCell.getCellType() == CellType.STRING) {
                 String value = poiCell.getStringCellValue();
                 int numLines = 1;
                 for (int i = 0; i < value.length(); i++) {
@@ -275,38 +280,38 @@ public class SpreadsheetTab {
         return col + values.length;
     }
 
-    public void setSurroundBorder(String firstCell, String lastCell, short border) {
+    public void setSurroundBorder(String firstCell, String lastCell, BorderStyle border) {
         CellReference firstReference = new CellReference(firstCell);
         CellReference lastReference = new CellReference(lastCell);
         setSurroundBorder(firstReference.getRow(), lastReference.getRow(), firstReference.getCol(), lastReference.getCol(), border);
     }
 
-    public void setSurroundBorder(int firstRow, int lastRow, int firstCol, int lastCol, short border) {
+    public void setSurroundBorder(int firstRow, int lastRow, int firstCol, int lastCol, BorderStyle border) {
         setTopBorder(firstRow, firstCol, lastCol, border);
         setBottomBorder(lastRow, firstCol, lastCol, border);
         setLeftBorder(firstRow, lastRow, firstCol, border);
         setRightBorder(firstRow, lastRow, lastCol, border);
     }
 
-    public void setRightBorder(int firstRow, int lastRow, int col, short border) {
+    public void setRightBorder(int firstRow, int lastRow, int col, BorderStyle border) {
         for (int row = firstRow; row <= lastRow; row++) {
             getOrCreateCell(row, col).applyStyle(DEFAULT.withRightBorder(border));
         }
     }
 
-    public void setLeftBorder(int firstRow, int lastRow, int col, short border) {
+    public void setLeftBorder(int firstRow, int lastRow, int col, BorderStyle border) {
         for (int row = firstRow; row <= lastRow; row++) {
             getOrCreateCell(row, col).applyStyle(DEFAULT.withLeftBorder(border));
         }
     }
 
-    public void setTopBorder(int row, int firstCol, int lastCol, short border) {
+    public void setTopBorder(int row, int firstCol, int lastCol, BorderStyle border) {
         for (int col = firstCol; col <= lastCol; col++) {
             getOrCreateCell(row, col).applyStyle(DEFAULT.withTopBorder(border));
         }
     }
 
-    public void setBottomBorder(int row, int firstCol, int lastCol, short border) {
+    public void setBottomBorder(int row, int firstCol, int lastCol, BorderStyle border) {
         for (int col = firstCol; col <= lastCol; col++) {
             getOrCreateCell(row, col).applyStyle(DEFAULT.withBottomBorder(border));
         }

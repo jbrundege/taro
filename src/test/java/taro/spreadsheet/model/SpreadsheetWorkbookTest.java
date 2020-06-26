@@ -1,17 +1,15 @@
 package taro.spreadsheet.model;
 
-import static org.apache.poi.ss.usermodel.CellStyle.ALIGN_CENTER;
-import static org.apache.poi.ss.usermodel.CellStyle.ALIGN_LEFT;
-import static org.junit.Assert.*;
-
-import java.util.Map;
-
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Map;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.fail;
 
 public class SpreadsheetWorkbookTest extends AbstractTest {
 
@@ -40,7 +38,7 @@ public class SpreadsheetWorkbookTest extends AbstractTest {
     public void registerStyle_CreatesNewStyle_IfNotAlreadyRegistered() {
         SpreadsheetWorkbook workbook = getSpreadsheetWorkbook();
 
-        SpreadsheetCellStyle taroStyleOne = new SpreadsheetCellStyle().withAlign(ALIGN_CENTER).withWrapText(true);
+        SpreadsheetCellStyle taroStyleOne = new SpreadsheetCellStyle().withAlign(HorizontalAlignment.CENTER).withWrapText(true);
         workbook.registerStyle(taroStyleOne);
         Map<SpreadsheetCellStyle, CellStyle> styles = workbook.getCellStyles();
 
@@ -52,7 +50,7 @@ public class SpreadsheetWorkbookTest extends AbstractTest {
         assertThat(poiStyleOne)
                 .isNotNull();
 
-        SpreadsheetCellStyle taroStyleTwo = new SpreadsheetCellStyle().withAlign(ALIGN_LEFT).withWrapText(false);
+        SpreadsheetCellStyle taroStyleTwo = new SpreadsheetCellStyle().withAlign(HorizontalAlignment.LEFT).withWrapText(false);
         workbook.registerStyle(taroStyleTwo);
         styles = workbook.getCellStyles();
 
@@ -71,7 +69,7 @@ public class SpreadsheetWorkbookTest extends AbstractTest {
     @Test
     public void registerStyle_ReusesExistingStyle_IfAlreadyRegistered() {
         SpreadsheetCellStyle styleOne = new SpreadsheetCellStyle()
-                .withAlign(ALIGN_CENTER)
+                .withAlign(HorizontalAlignment.CENTER)
                 .withWrapText(true)
                 .withBold(true);
 
@@ -91,7 +89,7 @@ public class SpreadsheetWorkbookTest extends AbstractTest {
 
         // register an identiacal style, no new style is added
         SpreadsheetCellStyle styleTwo = new SpreadsheetCellStyle()
-                .withAlign(ALIGN_CENTER)
+                .withAlign(HorizontalAlignment.CENTER)
                 .withWrapText(true)
                 .withBold(true);
 
@@ -138,14 +136,14 @@ public class SpreadsheetWorkbookTest extends AbstractTest {
     @Test
     public void registerStyle_ReusesFontsIndependentOfStyle() {
         SpreadsheetCellStyle styleOneWithBoldFont = new SpreadsheetCellStyle()
-                .withAlign(ALIGN_CENTER)
+                .withAlign(HorizontalAlignment.CENTER)
                 .withBold(true);
 
         SpreadsheetWorkbook workbook = getSpreadsheetWorkbook();
         workbook.registerStyle(styleOneWithBoldFont);
 
         SpreadsheetCellStyle styleTwoWithBoldFont = new SpreadsheetCellStyle()
-                .withAlign(ALIGN_LEFT)
+                .withAlign(HorizontalAlignment.LEFT)
                 .withBold(true);
 
         workbook.registerStyle(styleTwoWithBoldFont);
@@ -180,7 +178,7 @@ public class SpreadsheetWorkbookTest extends AbstractTest {
 
     @Test
     public void getStyles_ReturnsImmutableMap() {
-        SpreadsheetCellStyle style = new SpreadsheetCellStyle().withAlign(ALIGN_CENTER).withBold(true);
+        SpreadsheetCellStyle style = new SpreadsheetCellStyle().withAlign(HorizontalAlignment.CENTER).withBold(true);
 
         SpreadsheetWorkbook workbook = getSpreadsheetWorkbook();
         workbook.registerStyle(style);

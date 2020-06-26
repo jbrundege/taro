@@ -1,19 +1,18 @@
 package taro.spreadsheet;
 
 
-import java.awt.Color;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.junit.Test;
+import taro.spreadsheet.model.SpreadsheetCellStyle;
+import taro.spreadsheet.model.SpreadsheetTab;
+import taro.spreadsheet.model.SpreadsheetWorkbook;
+
+import java.awt.*;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Date;
-
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.junit.Test;
-
-import taro.spreadsheet.model.SpreadsheetCellStyle;
-import taro.spreadsheet.model.SpreadsheetTab;
-import taro.spreadsheet.model.SpreadsheetWorkbook;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.within;
@@ -28,7 +27,7 @@ public class SpreadsheetWorkbookIntegrationTest {
         tab.setValue("A1", "Some text", SpreadsheetCellStyle.HEADER.withBackgroundColor(Color.RED));
         tab.setValue("A2", "Some subtext");
         tab.setValue(0, 1, "A multi-line \n text cell", SpreadsheetCellStyle.DEFAULT.withWrapText(true));    // B1
-        tab.setValue(1, 1, 27.5, SpreadsheetCellStyle.CENTER_ONE_DECIMAL.withBottomBorder(CellStyle.BORDER_MEDIUM));    // B2
+        tab.setValue(1, 1, 27.5, SpreadsheetCellStyle.CENTER_ONE_DECIMAL.withBottomBorder(BorderStyle.MEDIUM));    // B2
         Date date = new Date();
         tab.setValue("C1", date);
 
