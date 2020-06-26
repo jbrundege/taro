@@ -1,6 +1,11 @@
 package taro.spreadsheet.model;
 
-import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.ClientAnchor;
+import org.apache.poi.ss.usermodel.Drawing;
+import org.apache.poi.ss.usermodel.Picture;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -195,7 +200,7 @@ public class SpreadsheetTab {
             SpreadsheetCell cell = getOrCreateCell(row, col);
             int fontSize = cell.getFontSizeInPoints();
             XSSFCell poiCell = cell.getPoiCell();
-            if (poiCell.getCellType() == Cell.CELL_TYPE_STRING) {
+            if (poiCell.getCellType() == CellType.STRING) {
                 String value = poiCell.getStringCellValue();
                 int numLines = 1;
                 for (int i = 0; i < value.length(); i++) {

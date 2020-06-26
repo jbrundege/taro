@@ -2,6 +2,7 @@ package taro.spreadsheet;
 
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -200,17 +201,17 @@ public class SpreadsheetReader {
         }
     }
 
-    public int getCellType(int col, int row) {
+    public CellType getCellType(int col, int row) {
         Cell cell = getCell(col, row);
-        return cell != null ? cell.getCellType() : Cell.CELL_TYPE_BLANK;
+        return cell != null ? cell.getCellType() : CellType.BLANK;
     }
 
     public boolean isString(int col, int row) {
-        return getCellType(col, row) == Cell.CELL_TYPE_STRING;
+        return getCellType(col, row) == CellType.STRING;
     }
 
     public boolean isNumeric(int col, int row) {
-        return getCellType(col, row) == Cell.CELL_TYPE_NUMERIC;
+        return getCellType(col, row) == CellType.NUMERIC;
     }
 
     public List<String> readDownUntilBlank(String startingCell) {
