@@ -1,6 +1,7 @@
 package taro.spreadsheet.model;
 
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.xssf.usermodel.*;
 
@@ -106,7 +107,7 @@ public class SpreadsheetWorkbook {
         }
 
         if (style.getBackgroundColor() != null) {
-            cellStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
+            cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
             cellStyle.setFillForegroundColor(new XSSFColor(style.getBackgroundColor()));
         }
 

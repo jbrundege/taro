@@ -1,8 +1,9 @@
 package taro.spreadsheet.model;
 
+import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.DateUtil;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.junit.Test;
 
@@ -158,7 +159,7 @@ public class SpreadsheetCellTest extends AbstractTest {
         assertThat(cell.getStyle())
                 .isNull();
 
-        SpreadsheetCellStyle cellStyle = new SpreadsheetCellStyle().withAlign(CellStyle.ALIGN_CENTER);
+        SpreadsheetCellStyle cellStyle = new SpreadsheetCellStyle().withAlign(HorizontalAlignment.CENTER);
         cell.setStyle(cellStyle);
 
         assertThat(cell.getStyle())
@@ -171,12 +172,12 @@ public class SpreadsheetCellTest extends AbstractTest {
     @Test
     public void applyStyle_MergesAStyleOntoACell() {
         SpreadsheetCellStyle originalStyle = new SpreadsheetCellStyle()
-                .withAlign(CellStyle.ALIGN_CENTER)
+                .withAlign(HorizontalAlignment.CENTER)
                 .withBold(true)
-                .withTopBorder(CellStyle.BORDER_MEDIUM)
-                .withLeftBorder(CellStyle.BORDER_MEDIUM)
-                .withBottomBorder(CellStyle.BORDER_MEDIUM)
-                .withRightBorder(CellStyle.BORDER_MEDIUM);
+                .withTopBorder(BorderStyle.MEDIUM)
+                .withLeftBorder(BorderStyle.MEDIUM)
+                .withBottomBorder(BorderStyle.MEDIUM)
+                .withRightBorder(BorderStyle.MEDIUM);
 
 
         SpreadsheetCell cell = getCell();
@@ -193,22 +194,22 @@ public class SpreadsheetCellTest extends AbstractTest {
 
         SpreadsheetCellStyle currentStyle = cell.getStyle();
         assertThat(currentStyle.getAlign())
-                .isEqualTo(CellStyle.ALIGN_CENTER);
+                .isEqualTo(HorizontalAlignment.CENTER);
 
         assertThat(currentStyle.getBold())
                 .isTrue();
 
         assertThat(currentStyle.getTopBorder())
-                .isEqualTo(CellStyle.BORDER_MEDIUM);
+                .isEqualTo(BorderStyle.MEDIUM);
 
         assertThat(currentStyle.getLeftBorder())
-                .isEqualTo(CellStyle.BORDER_MEDIUM);
+                .isEqualTo(BorderStyle.MEDIUM);
 
         assertThat(currentStyle.getBottomBorder())
-                .isEqualTo(CellStyle.BORDER_MEDIUM);
+                .isEqualTo(BorderStyle.MEDIUM);
 
         assertThat(currentStyle.getRightBorder())
-                .isEqualTo(CellStyle.BORDER_MEDIUM);
+                .isEqualTo(BorderStyle.MEDIUM);
 
         assertThat(currentStyle.getTopBorderColor())
                 .isEqualTo(Color.RED);

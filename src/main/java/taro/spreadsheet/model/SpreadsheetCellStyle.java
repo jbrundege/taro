@@ -1,14 +1,11 @@
 package taro.spreadsheet.model;
 
-import static org.apache.poi.ss.usermodel.CellStyle.ALIGN_CENTER;
-import static org.apache.poi.ss.usermodel.CellStyle.ALIGN_LEFT;
-import static org.apache.poi.ss.usermodel.CellStyle.ALIGN_RIGHT;
-import static org.apache.poi.ss.usermodel.CellStyle.BORDER_MEDIUM;
-import static org.apache.poi.ss.usermodel.CellStyle.VERTICAL_CENTER;
-
-import java.awt.Color;
-
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
+
+import java.awt.*;
 
 @SuppressWarnings("UnusedDeclaration")
 public class SpreadsheetCellStyle {
@@ -20,23 +17,23 @@ public class SpreadsheetCellStyle {
     public static final Color COLOR_NOTE = new Color(255, 255, 204);
 
     public static final SpreadsheetCellStyle DEFAULT = new SpreadsheetCellStyle();
-    public static final SpreadsheetCellStyle CENTER = DEFAULT.withAlign(ALIGN_CENTER).withNumDecimals(0);
-    public static final SpreadsheetCellStyle RIGHT = CENTER.withAlign(ALIGN_RIGHT);
-    public static final SpreadsheetCellStyle LEFT = CENTER.withAlign(ALIGN_LEFT);
+    public static final SpreadsheetCellStyle CENTER = DEFAULT.withAlign(HorizontalAlignment.CENTER).withNumDecimals(0);
+    public static final SpreadsheetCellStyle RIGHT = CENTER.withAlign(HorizontalAlignment.RIGHT);
+    public static final SpreadsheetCellStyle LEFT = CENTER.withAlign(HorizontalAlignment.LEFT);
     public static final SpreadsheetCellStyle CENTER_ONE_DECIMAL = CENTER.withNumDecimals(1);
 
-    public static final SpreadsheetCellStyle SUBTITLE = CENTER.withBold(true).withSurroundBorder(BORDER_MEDIUM);
+    public static final SpreadsheetCellStyle SUBTITLE = CENTER.withBold(true).withSurroundBorder(BorderStyle.MEDIUM);
     public static final SpreadsheetCellStyle TITLE = SUBTITLE.withFontSizeInPoints(14);
-    public static final SpreadsheetCellStyle HEADER = SUBTITLE.withVerticalAlign(VERTICAL_CENTER).withWrapText(true);
+    public static final SpreadsheetCellStyle HEADER = SUBTITLE.withVerticalAlign(VerticalAlignment.CENTER).withWrapText(true);
 
 
     private SpreadsheetFont font;
-    private Short align;
-    private Short verticalAlign;
-    private Short topBorder;
-    private Short rightBorder;
-    private Short bottomBorder;
-    private Short leftBorder;
+    private HorizontalAlignment align;
+    private VerticalAlignment verticalAlign;
+    private BorderStyle topBorder;
+    private BorderStyle rightBorder;
+    private BorderStyle bottomBorder;
+    private BorderStyle leftBorder;
     private Color topBorderColor;
     private Color leftBorderColor;
     private Color bottomBorderColor;
@@ -110,11 +107,11 @@ public class SpreadsheetCellStyle {
         return new SpreadsheetFont();
     }
 
-    public Short getAlign() {
+    public HorizontalAlignment getAlign() {
         return align;
     }
 
-    public SpreadsheetCellStyle withAlign(Short align) {
+    public SpreadsheetCellStyle withAlign(HorizontalAlignment align) {
         SpreadsheetCellStyle copy = this.copy();
         copy.align = align;
         return copy;
@@ -141,11 +138,11 @@ public class SpreadsheetCellStyle {
         return copy;
     }
 
-    public Short getBottomBorder() {
+    public BorderStyle getBottomBorder() {
         return bottomBorder;
     }
 
-    public SpreadsheetCellStyle withBottomBorder(Short bottomBorder) {
+    public SpreadsheetCellStyle withBottomBorder(BorderStyle bottomBorder) {
         SpreadsheetCellStyle copy = this.copy();
         copy.bottomBorder = bottomBorder;
         return copy;
@@ -225,11 +222,11 @@ public class SpreadsheetCellStyle {
         return copy;
     }
 
-    public Short getLeftBorder() {
+    public BorderStyle getLeftBorder() {
         return leftBorder;
     }
 
-    public SpreadsheetCellStyle withLeftBorder(Short leftBorder) {
+    public SpreadsheetCellStyle withLeftBorder(BorderStyle leftBorder) {
         SpreadsheetCellStyle copy = this.copy();
         copy.leftBorder = leftBorder;
         return copy;
@@ -245,7 +242,7 @@ public class SpreadsheetCellStyle {
         return copy;
     }
 
-    public SpreadsheetCellStyle withSurroundBorder(Short border) {
+    public SpreadsheetCellStyle withSurroundBorder(BorderStyle border) {
         return this.withTopBorder(border).withLeftBorder(border).withBottomBorder(border).withRightBorder(border);
     }
 
@@ -259,11 +256,11 @@ public class SpreadsheetCellStyle {
         return copy;
     }
 
-    public Short getRightBorder() {
+    public BorderStyle getRightBorder() {
         return rightBorder;
     }
 
-    public SpreadsheetCellStyle withRightBorder(Short rightBorder) {
+    public SpreadsheetCellStyle withRightBorder(BorderStyle rightBorder) {
         SpreadsheetCellStyle copy = this.copy();
         copy.rightBorder = rightBorder;
         return copy;
@@ -290,11 +287,11 @@ public class SpreadsheetCellStyle {
         return copy;
     }
 
-    public Short getTopBorder() {
+    public BorderStyle getTopBorder() {
         return topBorder;
     }
 
-    public SpreadsheetCellStyle withTopBorder(Short topBorder) {
+    public SpreadsheetCellStyle withTopBorder(BorderStyle topBorder) {
         SpreadsheetCellStyle copy = this.copy();
         copy.topBorder = topBorder;
         return copy;
@@ -332,11 +329,11 @@ public class SpreadsheetCellStyle {
         return copy;
     }
 
-    public Short getVerticalAlign() {
+    public VerticalAlignment getVerticalAlign() {
         return verticalAlign;
     }
 
-    public SpreadsheetCellStyle withVerticalAlign(Short verticalAlign) {
+    public SpreadsheetCellStyle withVerticalAlign(VerticalAlignment verticalAlign) {
         SpreadsheetCellStyle copy = this.copy();
         copy.verticalAlign = verticalAlign;
         return copy;

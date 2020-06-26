@@ -59,8 +59,7 @@ public class SpreadsheetReaderTest extends AbstractTest {
         try {
             SpreadsheetReader.getColumnIndex("B.2");
         } catch(IllegalArgumentException ex) {
-            assertThat(ex.getMessage())
-                    .contains("cellId");
+            assertThat(ex.getMessage()).contains("Invalid CellReference");
         }
     }
 

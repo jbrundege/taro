@@ -1,14 +1,16 @@
 package taro.spreadsheet.model;
 
-import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.junit.Test;
 
-import static org.apache.poi.ss.usermodel.CellStyle.BORDER_MEDIUM;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.within;
-import static taro.spreadsheet.model.SpreadsheetCellStyle.*;
+import static taro.spreadsheet.model.SpreadsheetCellStyle.CENTER;
+import static taro.spreadsheet.model.SpreadsheetCellStyle.LEFT;
+import static taro.spreadsheet.model.SpreadsheetCellStyle.RIGHT;
 
 public class SpreadsheetTabTest extends AbstractTest {
 
@@ -46,8 +48,8 @@ public class SpreadsheetTabTest extends AbstractTest {
         assertThat(tab.getCell(2, 2).getValue())
                 .isEqualTo("three");
 
-        assertThat(tab.getCell(2, 2).getPoiCell().getCellStyle().getAlignment())
-                .isEqualTo(CellStyle.ALIGN_CENTER);
+        assertThat(tab.getCell(2, 2).getPoiCell().getCellStyle().getAlignmentEnum())
+                .isEqualTo(HorizontalAlignment.CENTER);
     }
 
     @Test
@@ -166,12 +168,12 @@ public class SpreadsheetTabTest extends AbstractTest {
     @Test
     public void setSurroundBorder_AddsBorderToCellRangePerimeter() {
         SpreadsheetTab tab = getSpreadsheetTab();
-        tab.setSurroundBorder("B2", "C3", BORDER_MEDIUM);
+        tab.setSurroundBorder("B2", "C3", BorderStyle.MEDIUM);
 
         assertThat(tab.getCell("B2").getStyle().getTopBorder())
-                .isEqualTo(BORDER_MEDIUM);
+                .isEqualTo(BorderStyle.MEDIUM);
         assertThat(tab.getCell("B2").getStyle().getLeftBorder())
-                .isEqualTo(BORDER_MEDIUM);
+                .isEqualTo(BorderStyle.MEDIUM);
         assertThat(tab.getCell("B2").getStyle().getBottomBorder())
                 .isNull();
 
@@ -179,21 +181,21 @@ public class SpreadsheetTabTest extends AbstractTest {
                 .isNull();
 
         assertThat(tab.getCell("C2").getStyle().getTopBorder())
-                .isEqualTo(BORDER_MEDIUM);
+                .isEqualTo(BorderStyle.MEDIUM);
 
         assertThat(tab.getCell("C2").getStyle().getLeftBorder())
                 .isNull();
         assertThat(tab.getCell("C2").getStyle().getBottomBorder())
                 .isNull();
         assertThat(tab.getCell("C2").getStyle().getRightBorder())
-                .isEqualTo(BORDER_MEDIUM);
+                .isEqualTo(BorderStyle.MEDIUM);
 
         assertThat(tab.getCell("B3").getStyle().getTopBorder())
                 .isNull();
         assertThat(tab.getCell("B3").getStyle().getLeftBorder())
-                .isEqualTo(BORDER_MEDIUM);
+                .isEqualTo(BorderStyle.MEDIUM);
         assertThat(tab.getCell("B3").getStyle().getBottomBorder())
-                .isEqualTo(BORDER_MEDIUM);
+                .isEqualTo(BorderStyle.MEDIUM);
         assertThat(tab.getCell("B3").getStyle().getRightBorder())
                 .isNull();
 
@@ -202,9 +204,9 @@ public class SpreadsheetTabTest extends AbstractTest {
         assertThat(tab.getCell("C3").getStyle().getLeftBorder())
                 .isNull();
         assertThat(tab.getCell("C3").getStyle().getBottomBorder())
-                .isEqualTo(BORDER_MEDIUM);
+                .isEqualTo(BorderStyle.MEDIUM);
         assertThat(tab.getCell("C3").getStyle().getRightBorder())
-                .isEqualTo(BORDER_MEDIUM);
+                .isEqualTo(BorderStyle.MEDIUM);
     }
 
 }
