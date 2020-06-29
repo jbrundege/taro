@@ -59,10 +59,10 @@ public class SpreadsheetReader {
     }
 
 
-    private XSSFSheet sheet;
+    private Sheet sheet;
     private DataFormatter df = new DataFormatter();
 
-    public SpreadsheetReader(XSSFSheet sheet) {
+    public SpreadsheetReader(Sheet sheet) {
         this.sheet = sheet;
     }
 
